@@ -1,0 +1,134 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 100
+    }
+  },
+  "cli_default_open_behavior": "existing_window",
+  "project_panel": {
+    "dock": "right"
+  },
+  "outline_panel": {
+    "dock": "right"
+  },
+  "collaboration_panel": {
+    "dock": "right"
+  },
+  "agent": {
+    "dock": "right",
+    "favorite_models": [],
+    "model_parameters": []
+  },
+  "git_panel": {
+    "dock": "right"
+  },
+  "icon_theme": {
+    "mode": "dark",
+    "light": "Catppuccin Mocha",
+    "dark": "Catppuccin Mocha"
+  },
+  "code_lens": "menu",
+  "diff_view_style": "split",
+  "word_diff_enabled": true,
+  "ui_font_weight": 500.0,
+  "zoomed_padding": false,
+  "minimap": {
+    "show": "always",
+    "display_in": "active_editor",
+    "thumb": "always"
+  },
+  "soft_wrap": "editor_width",
+  "diagnostics": {
+    "inline": {
+      "enabled": true,
+      "update_debounce_ms": 150,
+      "padding": 4,
+      "min_column": 0,
+      "max_severity": null
+    }
+  },
+  "toolbar": {
+    "breadcrumbs": true,
+    "quick_actions": true
+  },
+  "git": {
+    "inline_blame": {
+      "enabled": true
+    }
+  },
+  "tab_bar": {
+    "show": true
+  },
+  "tabs": {
+    "git_status": true,
+    "file_icons": true,
+    "show_diagnostics": "all"
+  },
+  "indent_guides": {
+    "coloring": "indent_aware"
+  },
+  "scrollbar": {
+    "show": "never"
+  },
+  "title_bar": {
+    "show_branch_status_icon": true,
+    "show_user_picture": true,
+    "show_menus": false,
+    "show_onboarding_banner": false
+  },
+  "vim_mode": true,
+  "agent_servers": {
+    "codex-acp": {
+      "default_config_options": {
+        "fast-mode": "off"
+      },
+      "type": "registry"
+    },
+    "claude-acp": {
+      "default_config_options": {
+        "mode": "dontAsk",
+        "fast": "off",
+        "effort": "xhigh",
+        "model": "opus[1m]"
+      },
+      "type": "registry"
+    }
+  },
+  "base_keymap": "VSCode",
+  "ui_font_family": ".ZedSans",
+  "ui_font_size": 16,
+  "buffer_font_family": "FiraCode Nerd Font Propo",
+  "buffer_font_weight": 500,
+  "buffer_font_size": 12.5,
+  "theme": "Catppuccin Mocha Custom (Blur)",
+  "terminal": {
+    "font_family": "FiraCode Nerd Font Propo",
+    "font_size": 12.5,
+    "scrollbar": {
+      "show": "always"
+    },
+    "dock": "bottom",
+    "default_height": 250
+  },
+  "lsp": {
+    "discord_presence": {
+      "initialization_options": {
+        "state": null,
+        "details": null,
+        // discord-presence-lsp v0.12.0 has no true "disabled" idle mode.
+        // Use a practically unreachable timeout (100 years) instead.
+        "idle": {
+          "timeout": 3153600000,
+        },
+      },
+    },
+  },
+}

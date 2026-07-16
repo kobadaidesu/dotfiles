@@ -1,0 +1,34 @@
+onboarding = false
+
+[keys]
+prefix = "ctrl+r"
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+
+[ui]
+agent_panel_sort = "spaces"
+
+[theme]
+name = "tokyo-night"
+auto_switch = false
+
+[ui.toast]
+delivery = "system"
+delay_seconds = 1
+
+[experimental]
+reveal_hidden_cursor_for_cjk_ime = true
+cjk_ime_agents = ["claude", "codex"]
+# prefixモード中だけASCIIレイアウトへ自動切替（日本語IME中でもprefix操作を確実に）
+switch_ascii_input_source_in_prefix = true
+# サーバー再起動をまたいでペインの画面履歴を保持
+pane_history = true
+
+# カスタムコマンド: prefix+alt+g で一時ペインにgit概観を開く（依存なしで動作）
+# lazygitを入れたら command を "lazygit" に差し替えるだけでOK
+[[keys.command]]
+key = "prefix+alt+g"
+type = "pane"
+command = "git status && echo && git log --oneline --graph --all -20 | less -R"

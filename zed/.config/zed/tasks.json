@@ -1,0 +1,12 @@
+[
+  {
+    "label": "IME: ABC",
+    "command": "/opt/homebrew/bin/macism",
+    "args": ["com.apple.keylayout.ABC"],
+    "reveal": "never",
+    "hide": "never",
+    "show_summary": false,
+    "show_command": false,
+    "save": "none"
+  }
+]

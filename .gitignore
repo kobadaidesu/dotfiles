@@ -1,0 +1,14 @@
+.DS_Store
+*.log
+*.out
+
+.env
+.env.*
+!.env.example
+
+**/.claude/settings.local.json
+**/prompts/
+**/*.mdb
+**/release-notes.json
+**/session.json
+**/session-history.json

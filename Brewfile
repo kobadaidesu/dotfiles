@@ -1,0 +1,15 @@
+tap "felixkratz/formulae"
+tap "laishulu/homebrew"
+
+brew "felixkratz/formulae/borders"
+brew "gh"
+brew "herdr"
+brew "laishulu/homebrew/macism"
+brew "neovim"
+brew "ripgrep"
+brew "starship"
+brew "stow"
+
+cask "font-fira-code-nerd-font"
+cask "ghostty"
+cask "zed"

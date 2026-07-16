@@ -1,0 +1,210 @@
+[
+  {
+    "context": "Terminal",
+    "bindings": {
+      "shift-enter": [
+        "terminal::SendText",
+        "\u001b\r"
+      ]
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "f12": "editor::FindAllReferences",
+      "cmd-f12": "editor::GoToDefinition"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == normal && !menu",
+    "bindings": {
+      "i": [
+        "action::Sequence",
+        [
+          ["task::Spawn", { "task_name": "IME: ABC" }],
+          "vim::InsertBefore"
+        ]
+      ],
+      "a": [
+        "action::Sequence",
+        [
+          ["task::Spawn", { "task_name": "IME: ABC" }],
+          "vim::InsertAfter"
+        ]
+      ],
+      "shift-i": [
+        "action::Sequence",
+        [
+          ["task::Spawn", { "task_name": "IME: ABC" }],
+          "vim::InsertFirstNonWhitespace"
+        ]
+      ],
+      "shift-a": [
+        "action::Sequence",
+        [
+          ["task::Spawn", { "task_name": "IME: ABC" }],
+          "vim::InsertEndOfLine"
+        ]
+      ],
+      "o": [
+        "action::Sequence",
+        [
+          ["task::Spawn", { "task_name": "IME: ABC" }],
+          "vim::InsertLineBelow"
+        ]
+      ],
+      "shift-o": [
+        "action::Sequence",
+        [
+          ["task::Spawn", { "task_name": "IME: ABC" }],
+          "vim::InsertLineAbove"
+        ]
+      ],
+      "c": [
+        "action::Sequence",
+        [
+          ["task::Spawn", { "task_name": "IME: ABC" }],
+          "vim::PushChange"
+        ]
+      ],
+      "shift-c": [
+        "action::Sequence",
+        [
+          ["task::Spawn", { "task_name": "IME: ABC" }],
+          "vim::ChangeToEndOfLine"
+        ]
+      ],
+      "s": [
+        "action::Sequence",
+        [
+          ["task::Spawn", { "task_name": "IME: ABC" }],
+          "vim::Substitute"
+        ]
+      ],
+      "shift-s": [
+        "action::Sequence",
+        [
+          ["task::Spawn", { "task_name": "IME: ABC" }],
+          "vim::SubstituteLine"
+        ]
+      ],
+      "r": [
+        "action::Sequence",
+        [
+          ["task::Spawn", { "task_name": "IME: ABC" }],
+          "vim::PushReplace"
+        ]
+      ],
+      "shift-r": [
+        "action::Sequence",
+        [
+          ["task::Spawn", { "task_name": "IME: ABC" }],
+          "vim::ToggleReplace"
+        ]
+      ],
+      "g i": [
+        "action::Sequence",
+        [
+          ["task::Spawn", { "task_name": "IME: ABC" }],
+          "vim::InsertAtPrevious"
+        ]
+      ],
+      "insert": [
+        "action::Sequence",
+        [
+          ["task::Spawn", { "task_name": "IME: ABC" }],
+          "vim::InsertBefore"
+        ]
+      ],
+      "space": null,
+      "space g s": "git_panel::ToggleFocus",
+      "g shift-a": null,
+      "g r": "editor::FindAllReferences"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == visual && !menu",
+    "bindings": {
+      "c": [
+        "action::Sequence",
+        [
+          ["task::Spawn", { "task_name": "IME: ABC" }],
+          "vim::Substitute"
+        ]
+      ],
+      "s": [
+        "action::Sequence",
+        [
+          ["task::Spawn", { "task_name": "IME: ABC" }],
+          "vim::Substitute"
+        ]
+      ],
+      "shift-r": [
+        "action::Sequence",
+        [
+          ["task::Spawn", { "task_name": "IME: ABC" }],
+          "vim::SubstituteLine"
+        ]
+      ],
+      "shift-s": [
+        "action::Sequence",
+        [
+          ["task::Spawn", { "task_name": "IME: ABC" }],
+          "vim::SubstituteLine"
+        ]
+      ],
+      "shift-i": [
+        "action::Sequence",
+        [
+          ["task::Spawn", { "task_name": "IME: ABC" }],
+          "vim::InsertBefore"
+        ]
+      ],
+      "shift-a": [
+        "action::Sequence",
+        [
+          ["task::Spawn", { "task_name": "IME: ABC" }],
+          "vim::InsertAfter"
+        ]
+      ],
+      "g shift-i": [
+        "action::Sequence",
+        [
+          ["task::Spawn", { "task_name": "IME: ABC" }],
+          "vim::VisualInsertFirstNonWhiteSpace"
+        ]
+      ],
+      "g shift-a": [
+        "action::Sequence",
+        [
+          ["task::Spawn", { "task_name": "IME: ABC" }],
+          "vim::VisualInsertEndOfLine"
+        ]
+      ]
+    }
+  },
+  {
+    "context": "Editor && vim_mode == insert && !menu",
+    "bindings": {
+      "j j": "vim::NormalBefore"
+    }
+  },
+  {
+    "context": "Editor && VimControl && !VimWaiting && !menu",
+    "bindings": {
+      "ctrl-t h": "workspace::ActivatePaneLeft",
+      "ctrl-t j": "workspace::ActivatePaneDown",
+      "ctrl-t k": "workspace::ActivatePaneUp",
+      "ctrl-t l": "workspace::ActivatePaneRight"
+    }
+  },
+  {
+    "context": "Dock",
+    "bindings": {
+      "ctrl-t h": "workspace::ActivatePaneLeft",
+      "ctrl-t j": "workspace::ActivatePaneDown",
+      "ctrl-t k": "workspace::ActivatePaneUp",
+      "ctrl-t l": "workspace::ActivatePaneRight"
+    }
+  }
+]
