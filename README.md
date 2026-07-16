@@ -1,5 +1,6 @@
 # dotfiles
-<img width="2048" height="1116" alt="1691dff3-5692-4f4d-9b6c-b4b6a25197f8 2" src="https://github.com/user-attachments/assets/935dc0c3-6752-4bc8-9b4b-69c9aa1ecfe0" />
+<img width="3024" height="1964" alt="スクリーンショット 2026-07-16 20 56 37" src="https://github.com/user-attachments/assets/dec61e49-91a1-4200-a1ff-b81863630757" />
+
 
 
 Personal macOS configuration files, managed with [GNU Stow](https://www.gnu.org/software/stow/).
