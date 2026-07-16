@@ -1,4 +1,5 @@
 # dotfiles
+![Uploading image.png…]()
 
 Personal macOS configuration files, managed with [GNU Stow](https://www.gnu.org/software/stow/).
 
