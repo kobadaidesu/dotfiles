@@ -1,5 +1,6 @@
 # dotfiles
-![Uploading image.png…]()
+<img width="2048" height="1116" alt="1691dff3-5692-4f4d-9b6c-b4b6a25197f8 2" src="https://github.com/user-attachments/assets/935dc0c3-6752-4bc8-9b4b-69c9aa1ecfe0" />
+
 
 Personal macOS configuration files, managed with [GNU Stow](https://www.gnu.org/software/stow/).
 
