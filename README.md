@@ -16,19 +16,31 @@ Personal macOS configuration managed with
 - JankyBorders
 - herdr
 - Zed
-- Neovim / LazyVim
+- Neovim
 
 ## Architecture
 
 - nix-darwin manages Nix settings and imports the modules under `nix/darwin/`.
-- Home Manager manages Zsh, Oh My Zsh, Git, Starship, and imports the modules under `nix/home/`.
-- Neovim, GitHub CLI, and ripgrep are installed from Nix.
+- Home Manager manages Zsh, Oh My Zsh, Git, Neovim, Starship, and application settings under `nix/home/`.
+- GitHub CLI and ripgrep are installed from Nix.
 - Homebrew remains responsible for macOS-specific utilities, GUI applications, fonts, Codex, and Claude Code.
-- Existing application configuration files are linked into the home directory by Home Manager.
+- Home Manager generates application configuration files from the Nix modules.
+- Large Zed theme data is kept separately under `assets/zed/themes/`.
 - Existing files are preserved once with the `.hm-backup-20260724` suffix during migration.
 - Ghostty and Zed applications remain manually installed for now; their configuration is managed by Home Manager.
 
 GNU Stow and the old standalone Brewfile bootstrap are no longer used.
+
+## Layout
+
+```text
+nix/
+├── darwin/    # System packages and Homebrew declarations
+└── home/      # Shell, CLI, and application settings
+
+assets/
+└── zed/themes/  # Zed theme JSON assets
+```
 
 ## Setup
 
