@@ -3,7 +3,9 @@
 
 
 
-Personal macOS configuration files, managed with [GNU Stow](https://www.gnu.org/software/stow/).
+Personal macOS configuration managed with
+[nix-darwin](https://github.com/nix-darwin/nix-darwin) and
+[Home Manager](https://github.com/nix-community/home-manager).
 
 ## Included configurations
 
@@ -16,9 +18,18 @@ Personal macOS configuration files, managed with [GNU Stow](https://www.gnu.org/
 - Zed
 - Neovim / LazyVim
 
+## Architecture
+
+- nix-darwin manages Nix settings, CLI packages, and the remaining Homebrew formulae.
+- Home Manager links user configuration files into the home directory.
+- Existing files are preserved once with the `.hm-backup-20260724` suffix during migration.
+- Ghostty and Zed applications remain manually installed for now; their configuration is managed by Home Manager.
+
+GNU Stow and the old Homebrew bootstrap are no longer used.
+
 ## Setup
 
-Homebrew must already be installed.
+Nix and Homebrew must already be installed.
 
 ```sh
 git clone https://github.com/kobadaidesu/dotfiles.git ~/dotfiles
@@ -26,22 +37,17 @@ cd ~/dotfiles
 ./install.sh
 ```
 
-The setup script installs the packages in `Brewfile`, installs the two Oh My Zsh plugins used by `.zshrc`, and links each configuration into the home directory with Stow.
-
-Stow stops instead of overwriting an existing regular file. On a machine that already has configuration files, compare or back them up before running the script again.
-
-## Manual linking
-
-To link only selected configurations:
+After the first installation, apply changes with:
 
 ```sh
-stow --dir="$HOME/dotfiles" --target="$HOME" zsh git ghostty starship
+sudo darwin-rebuild switch \
+  --flake "path:$HOME/dotfiles#KobayashinoMacBook-Pro"
 ```
 
-To remove those links:
+Update pinned inputs explicitly:
 
 ```sh
-stow --dir="$HOME/dotfiles" --target="$HOME" --delete zsh git ghostty starship
+nix flake update --flake ~/dotfiles
 ```
 
 ## Local-only data

@@ -3,49 +3,47 @@
 set -euo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PACKAGES=(
-  zsh
-  git
-  ghostty
-  starship
-  borders
-  herdr
-  zed
-  nvim
-)
+HOST_NAME="${DARWIN_HOST:-$(/usr/sbin/scutil --get LocalHostName)}"
+FLAKE_REF="path:$DOTFILES_DIR#$HOST_NAME"
 
-if [[ "$(uname -s)" != "Darwin" ]]; then
+if [[ "$EUID" -eq 0 ]]; then
+  export HOME="/var/root"
+fi
+
+if [[ "$(/usr/bin/uname -s)" != "Darwin" ]]; then
   echo "This setup currently supports macOS only." >&2
   exit 1
 fi
 
-if ! command -v brew >/dev/null 2>&1; then
-  echo "Homebrew is required: https://brew.sh" >&2
+NIX_BIN="$(command -v nix 2>/dev/null || true)"
+if [[ -z "$NIX_BIN" && -x /run/current-system/sw/bin/nix ]]; then
+  NIX_BIN="/run/current-system/sw/bin/nix"
+elif [[ -z "$NIX_BIN" && -x /nix/var/nix/profiles/default/bin/nix ]]; then
+  NIX_BIN="/nix/var/nix/profiles/default/bin/nix"
+fi
+
+if [[ -z "$NIX_BIN" ]]; then
+  echo "Nix is required: https://nixos.org/download/" >&2
   exit 1
 fi
 
-brew bundle --file="$DOTFILES_DIR/Brewfile"
-
-OH_MY_ZSH_DIR="${ZSH:-$HOME/.oh-my-zsh}"
-if [[ ! -d "$OH_MY_ZSH_DIR" ]]; then
-  git clone --depth=1 https://github.com/ohmyzsh/ohmyzsh.git "$OH_MY_ZSH_DIR"
+if [[ "$HOST_NAME" != "KobayashinoMacBook-Pro" ]]; then
+  echo "No nix-darwin configuration is defined for host: $HOST_NAME" >&2
+  exit 1
 fi
 
-ZSH_CUSTOM_DIR="${ZSH_CUSTOM:-$OH_MY_ZSH_DIR/custom}"
-if [[ ! -d "$ZSH_CUSTOM_DIR/plugins/zsh-autosuggestions" ]]; then
-  git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions \
-    "$ZSH_CUSTOM_DIR/plugins/zsh-autosuggestions"
+DARWIN_REBUILD_BIN="$(command -v darwin-rebuild 2>/dev/null || true)"
+if [[ -z "$DARWIN_REBUILD_BIN" && -x /run/current-system/sw/bin/darwin-rebuild ]]; then
+  DARWIN_REBUILD_BIN="/run/current-system/sw/bin/darwin-rebuild"
 fi
 
-if [[ ! -d "$ZSH_CUSTOM_DIR/plugins/zsh-syntax-highlighting" ]]; then
-  git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git \
-    "$ZSH_CUSTOM_DIR/plugins/zsh-syntax-highlighting"
+if [[ -n "$DARWIN_REBUILD_BIN" ]]; then
+  /usr/bin/sudo "$DARWIN_REBUILD_BIN" switch --flake "$FLAKE_REF"
+else
+  /usr/bin/sudo "$NIX_BIN" \
+    --extra-experimental-features "nix-command flakes" \
+    run github:nix-darwin/nix-darwin/nix-darwin-26.05#darwin-rebuild \
+    -- switch --flake "$FLAKE_REF"
 fi
 
-stow \
-  --dir="$DOTFILES_DIR" \
-  --target="$HOME" \
-  --restow \
-  "${PACKAGES[@]}"
-
-echo "Dotfiles linked successfully. Start a new shell to load the Zsh configuration."
+echo "nix-darwin and Home Manager configuration applied."

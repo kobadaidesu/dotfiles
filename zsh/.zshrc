@@ -103,8 +103,8 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# Go binaries (gopls など)
-export PATH="$HOME/go/bin:$PATH"
+# Prefer packages managed by nix-darwin, then user-local Go binaries.
+export PATH="/run/current-system/sw/bin:/etc/profiles/per-user/$USER/bin:$HOME/go/bin:$PATH"
 
 # Aliases
 alias gs='git status'

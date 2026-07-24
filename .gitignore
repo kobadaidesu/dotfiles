@@ -12,3 +12,6 @@
 **/release-notes.json
 **/session.json
 **/session-history.json
+
+result
+result-*
