@@ -20,12 +20,15 @@ Personal macOS configuration managed with
 
 ## Architecture
 
-- nix-darwin manages Nix settings, CLI packages, and the remaining Homebrew formulae.
-- Home Manager links user configuration files into the home directory.
+- nix-darwin manages Nix settings and imports the modules under `nix/darwin/`.
+- Home Manager manages Zsh, Oh My Zsh, Git, Starship, and imports the modules under `nix/home/`.
+- Neovim, GitHub CLI, and ripgrep are installed from Nix.
+- Homebrew remains responsible for macOS-specific utilities, GUI applications, fonts, Codex, and Claude Code.
+- Existing application configuration files are linked into the home directory by Home Manager.
 - Existing files are preserved once with the `.hm-backup-20260724` suffix during migration.
 - Ghostty and Zed applications remain manually installed for now; their configuration is managed by Home Manager.
 
-GNU Stow and the old Homebrew bootstrap are no longer used.
+GNU Stow and the old standalone Brewfile bootstrap are no longer used.
 
 ## Setup
 

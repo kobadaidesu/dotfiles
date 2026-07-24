@@ -1,44 +1,20 @@
 {
   inputs,
-  pkgs,
   ...
 }:
 
 {
+  imports = [
+    ./nix/darwin/homebrew.nix
+    ./nix/darwin/packages.nix
+  ];
+
   nixpkgs.hostPlatform = "aarch64-darwin";
 
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
   ];
-
-  environment.systemPackages = with pkgs; [
-    gh
-    git
-    neovim
-    ripgrep
-    starship
-  ];
-
-  # Keep applications installed outside Homebrew untouched during migration.
-  # GUI applications such as Ghostty and Zed can be adopted separately later.
-  homebrew = {
-    enable = true;
-    taps = [
-      "felixkratz/formulae"
-      "laishulu/homebrew"
-    ];
-    brews = [
-      "felixkratz/formulae/borders"
-      "herdr"
-      "laishulu/homebrew/macism"
-    ];
-    onActivation = {
-      autoUpdate = false;
-      upgrade = false;
-      cleanup = "none";
-    };
-  };
 
   users.users.kobadai = {
     name = "kobadai";

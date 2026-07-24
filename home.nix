@@ -1,6 +1,12 @@
 { ... }:
 
 {
+  imports = [
+    ./nix/home/git.nix
+    ./nix/home/starship.nix
+    ./nix/home/zsh.nix
+  ];
+
   home = {
     username = "kobadai";
     homeDirectory = "/Users/kobadai";
@@ -10,15 +16,8 @@
   programs.home-manager.enable = true;
   xdg.enable = true;
 
-  home.file = {
-    ".zshrc".source = ./zsh/.zshrc;
-    ".gitconfig".source = ./git/.gitconfig;
-  };
-
   xdg.configFile = {
-    "git/ignore".source = ./git/.config/git/ignore;
     "ghostty/config".source = ./ghostty/.config/ghostty/config;
-    "starship.toml".source = ./starship/.config/starship.toml;
     "herdr/config.toml".source = ./herdr/.config/herdr/config.toml;
     "borders/bordersrc".source = ./borders/.config/borders/bordersrc;
 
