@@ -3,7 +3,9 @@
 
 
 
-Personal macOS configuration files, managed with [GNU Stow](https://www.gnu.org/software/stow/).
+Personal macOS configuration managed with nix-darwin, Home Manager, and
+nix-homebrew. The previous [GNU Stow](https://www.gnu.org/software/stow/)
+workflow remains available while the migration is completed.
 
 ## Included configurations
 
@@ -16,7 +18,13 @@ Personal macOS configuration files, managed with [GNU Stow](https://www.gnu.org/
 - Zed
 - Neovim / LazyVim
 
-## Setup
+## Declarative setup
+
+The Nix configuration starts at [`flake.nix`](flake.nix), with modules under
+[`nix/`](nix/). See [`nix/README.md`](nix/README.md) for the first activation
+and rebuild commands.
+
+## Legacy Stow setup
 
 Homebrew must already be installed.
 
@@ -26,7 +34,9 @@ cd ~/dotfiles
 ./install.sh
 ```
 
-The setup script installs the packages in `Brewfile`, installs the two Oh My Zsh plugins used by `.zshrc`, and links each configuration into the home directory with Stow.
+The setup script installs the packages in `Brewfile`, installs the two Oh My
+Zsh plugins used by `.zshrc`, and links each configuration into the home
+directory with Stow.
 
 Stow stops instead of overwriting an existing regular file. On a machine that already has configuration files, compare or back them up before running the script again.
 
