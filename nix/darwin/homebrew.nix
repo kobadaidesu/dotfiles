@@ -12,8 +12,14 @@
 
     brews = [
       "felixkratz/formulae/borders"
+      "glew"
       "herdr"
       "laishulu/homebrew/macism"
+      "sdl2-compat"
+      "swiftformat"
+      "swiftlint"
+      "terminal-notifier"
+      "xcode-build-server"
     ];
 
     casks = [
@@ -22,10 +28,12 @@
       "font-blex-mono-nerd-font"
       "font-fira-code-nerd-font"
       "font-jetbrains-mono-nerd-font"
+      "ghostty"
       "google-japanese-ime"
       "mos"
       "raycast"
       "stats"
+      "zed"
     ];
 
     onActivation = {

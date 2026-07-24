@@ -1,0 +1,55 @@
+name: Update flake.lock
+
+on:
+  schedule:
+    - cron: "0 23 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: update-flake-lock
+  cancel-in-progress: false
+
+jobs:
+  update:
+    name: Update and verify
+    runs-on: macos-15
+    timeout-minutes: 60
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install Nix
+        uses: DeterminateSystems/determinate-nix-action@d96678350ffd6a456235832eb11e1c491589b7bb # v3.21.8
+
+      - name: Update flake inputs
+        run: nix flake update
+
+      - name: Check formatting
+        run: nix fmt -- --ci
+
+      - name: Check flake
+        run: nix flake check
+
+      - name: Build macOS configuration
+        run: nix build '.#darwinConfigurations.KobayashinoMacBook-Pro.system' --no-link
+
+      - name: Create update pull request
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: automation/update-flake-lock
+          delete-branch: true
+          commit-message: Update flake.lock
+          title: Update flake.lock
+          body: |
+            Automated weekly update of the pinned Nix flake inputs.
+
+            Validation completed before this pull request was created:
+            - `nix fmt -- --ci`
+            - `nix flake check`
+            - macOS system build

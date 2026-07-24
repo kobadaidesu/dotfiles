@@ -9,6 +9,8 @@
 
     home-manager.url = "github:nix-community/home-manager/release-26.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
   };
 
   outputs =
@@ -17,6 +19,7 @@
       nixpkgs,
       nix-darwin,
       home-manager,
+      nix-homebrew,
       ...
     }:
     {
@@ -26,6 +29,7 @@
         modules = [
           ./darwin-configuration.nix
           home-manager.darwinModules.home-manager
+          nix-homebrew.darwinModules.nix-homebrew
           {
             home-manager = {
               useGlobalPkgs = true;
@@ -35,6 +39,17 @@
               backupFileExtension = "hm-backup-20260724";
 
               users.kobadai = import ./home.nix;
+            };
+
+            nix-homebrew = {
+              enable = true;
+              user = "kobadai";
+              autoMigrate = true;
+
+              trust.formulae = [
+                "felixkratz/formulae/borders"
+                "laishulu/homebrew/macism"
+              ];
             };
           }
         ];

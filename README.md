@@ -21,13 +21,17 @@ Personal macOS configuration managed with
 ## Architecture
 
 - nix-darwin manages Nix settings and imports the modules under `nix/darwin/`.
+- nix-homebrew manages the Homebrew installation and trust for the required third-party formulae.
 - Home Manager manages Zsh, Oh My Zsh, Git, Neovim, Starship, and application settings under `nix/home/`.
 - GitHub CLI and ripgrep are installed from Nix.
 - Homebrew remains responsible for macOS-specific utilities, GUI applications, fonts, Codex, and Claude Code.
 - Home Manager generates application configuration files from the Nix modules.
 - Large Zed theme data is kept separately under `assets/zed/themes/`.
+- Zed and Ghostty are installed as Homebrew casks; their settings remain managed by Home Manager.
+- Nix garbage collection removes generations older than 30 days every Sunday.
+- GitHub Actions checks formatting and builds the macOS configuration on pushes and pull requests.
+- A weekly workflow updates `flake.lock`, verifies the result, and opens a pull request.
 - Existing files are preserved once with the `.hm-backup-20260724` suffix during migration.
-- Ghostty and Zed applications remain manually installed for now; their configuration is managed by Home Manager.
 
 GNU Stow and the old standalone Brewfile bootstrap are no longer used.
 
@@ -40,6 +44,10 @@ nix/
 
 assets/
 └── zed/themes/  # Zed theme JSON assets
+
+.github/workflows/
+├── check.yml              # Format, flake, and macOS build checks
+└── update-flake-lock.yml  # Weekly verified dependency update PR
 ```
 
 ## Setup
