@@ -5,6 +5,7 @@
     fd
     gh
     go
+    gopls
     just
     lazygit
     nodejs
