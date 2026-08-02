@@ -118,6 +118,14 @@
     "dock": "bottom",
     "default_height": 250
   },
+  "languages": {
+    "Go": {
+      "format_on_save": "on",
+      "code_actions_on_format": {
+        "source.organizeImports": true
+      }
+    }
+  },
   "lsp": {
     "discord_presence": {
       "initialization_options": {
