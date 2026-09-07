@@ -36,7 +36,7 @@ jobs:
         run: nix flake check
 
       - name: Build macOS configuration
-        run: nix build '.#darwinConfigurations.KobayashinoMacBook-Pro.system' --no-link
+        run: nix build '.#darwinConfigurations.macbook.system' --no-link
 
       - name: Create update pull request
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
