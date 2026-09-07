@@ -14,6 +14,13 @@
   system.primaryUser = "kobadai";
   users.users.kobadai.home = "/Users/kobadai";
 
+  # Touch ID で sudo を通す + darwin-rebuild だけはパスワード無しで実行可に
+  # (エージェントが dotfiles 変更を自動デプロイできるようにするため)
+  security.pam.services.sudo_local.touchIdAuth = true;
+  security.sudo.extraConfig = ''
+    kobadai ALL=(ALL) NOPASSWD: /run/current-system/sw/bin/darwin-rebuild
+  '';
+
   programs.zsh.enable = true;
   environment.pathsToLink = [ "/share/zsh" ];
 
