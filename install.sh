@@ -11,7 +11,6 @@ PACKAGES=(
   borders
   herdr
   zed
-  nvim
 )
 
 if [[ "$(uname -s)" != "Darwin" ]]; then

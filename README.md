@@ -16,7 +16,6 @@ workflow remains available while the migration is completed.
 - JankyBorders
 - herdr
 - Zed
-- Neovim / LazyVim
 
 ## Declarative setup
 
