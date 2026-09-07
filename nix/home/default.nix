@@ -13,6 +13,7 @@
     sessionPath = [
       "$HOME/.local/bin"
       "$HOME/go/bin"
+      "$HOME/development/flutter/bin"
     ];
   };
 
@@ -20,6 +21,10 @@
 
   programs = {
     home-manager.enable = true;
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
     neovim = {
       enable = true;
       defaultEditor = true;
