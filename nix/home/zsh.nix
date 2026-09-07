@@ -1,9 +1,7 @@
 { config, ... }:
 
 let
-  starshipSettings = builtins.fromTOML (
-    builtins.readFile ../../starship/.config/starship.toml
-  );
+  starshipSettings = builtins.fromTOML (builtins.readFile ../../starship/.config/starship.toml);
 in
 {
   programs.zsh = {

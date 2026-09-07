@@ -34,7 +34,8 @@
         ];
       };
 
-      checks.aarch64-darwin.default =
-        inputs.self.darwinConfigurations.macbook.system;
+      checks.aarch64-darwin.default = inputs.self.darwinConfigurations.macbook.system;
+
+      formatter.aarch64-darwin = inputs.nixpkgs.legacyPackages.aarch64-darwin.nixfmt-tree;
     };
 }
