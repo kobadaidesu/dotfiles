@@ -33,4 +33,4 @@ jobs:
         run: nix flake check
 
       - name: Build macOS configuration
-        run: nix build '.#darwinConfigurations.KobayashinoMacBook-Pro.system' --no-link
+        run: nix build '.#darwinConfigurations.macbook.system' --no-link
