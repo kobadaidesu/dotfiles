@@ -1,0 +1,2 @@
+# Run inside WSL straight from a Windows checkout, so keep LF line endings.
+windows/wsl/* text eol=lf

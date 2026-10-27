@@ -73,10 +73,16 @@ The script installs Zed with winget, FiraCode Nerd Font, and
 | `zed/.config/zed/settings.json`, `keymap.json`, `themes/` | `%APPDATA%\Zed\` |
 | `windows/zed/tasks.json` | `%APPDATA%\Zed\tasks.json` |
 | `herdr/.config/herdr/config.toml` | `%APPDATA%\herdr\config.toml` and `~/.config/herdr/config.toml` in the default WSL distribution |
+| `windows/wsl/notify-send` | `~/.local/bin/notify-send` in the default WSL distribution |
 
 `windows/zed/tasks.json` replaces the macOS task that switches to the ABC
 input source with macism: on Windows, zenhan turns the IME off when Vim mode
 enters insert mode.
+
+WSL has no notification daemon, so herdr's `ui.toast.delivery = "system"`
+would show nothing there. `windows/wsl/notify-send` takes the place of
+libnotify's command and shows the notification as a Windows toast through
+`powershell.exe`.
 
 Existing files are renamed with a `.backup-<timestamp>` suffix before they are
 linked. Pass `-SkipWsl` to leave WSL untouched.
