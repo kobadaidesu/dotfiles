@@ -109,6 +109,10 @@
   "buffer_font_weight": 500,
   "buffer_font_size": 12.5,
   "theme": "Catppuccin Mocha Custom (Blur)",
+  // Keep the window opaque on Windows: same palette without the blur.
+  "windows": {
+    "theme": "Custom Catppuccin Mocha b"
+  },
   "terminal": {
     "font_family": "FiraCode Nerd Font Propo",
     "font_size": 12.5,
