@@ -1,0 +1,62 @@
+#!/bin/sh
+# notify-send for WSL, which has no notification daemon: shows the
+# notification as a Windows toast through powershell.exe. herdr calls
+# `notify-send --app-name Herdr -- TITLE [BODY]` for ui.toast.delivery = "system".
+set -eu
+
+app_name=
+while [ $# -gt 0 ]; do
+    case $1 in
+        -a | --app-name)
+            app_name=$2
+            shift 2
+            ;;
+        --app-name=*)
+            app_name=${1#*=}
+            shift
+            ;;
+        -u | --urgency | -t | --expire-time | -i | --icon | -c | --category | -h | --hint)
+            shift 2
+            ;;
+        --)
+            shift
+            break
+            ;;
+        -*)
+            shift
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+if [ $# -eq 0 ]; then
+    echo "usage: notify-send [OPTION...] SUMMARY [BODY]" >&2
+    exit 1
+fi
+
+script=$(
+    cat <<'EOF'
+$ProgressPreference = 'SilentlyContinue'
+$null = [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime]
+$null = [Windows.Data.Xml.Dom.XmlDocument, Windows.Data.Xml.Dom.XmlDocument, ContentType = WindowsRuntime]
+$title = [Security.SecurityElement]::Escape($env:NOTIFY_SEND_TITLE)
+$body = [Security.SecurityElement]::Escape($env:NOTIFY_SEND_BODY)
+$app = [Security.SecurityElement]::Escape($env:NOTIFY_SEND_APP_NAME)
+$xml = New-Object Windows.Data.Xml.Dom.XmlDocument
+$xml.LoadXml("<toast><visual><binding template='ToastGeneric'><text>$title</text><text>$body</text><text placement='attribution'>$app</text></binding></visual></toast>")
+$appId = '{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\WindowsPowerShell\v1.0\powershell.exe'
+[Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier($appId).Show((New-Object Windows.UI.Notifications.ToastNotification $xml))
+EOF
+)
+encoded=$(printf '%s' "$script" | iconv -f UTF-8 -t UTF-16LE | base64 -w 0)
+
+# The text travels as environment variables (WSLENV) to avoid quoting it for
+# Windows. herdr waits for this command, so powershell.exe runs in the
+# background.
+NOTIFY_SEND_TITLE=$1 \
+    NOTIFY_SEND_BODY=${2-} \
+    NOTIFY_SEND_APP_NAME=$app_name \
+    WSLENV=${WSLENV:+$WSLENV:}NOTIFY_SEND_TITLE:NOTIFY_SEND_BODY:NOTIFY_SEND_APP_NAME \
+    powershell.exe -NoProfile -NonInteractive -EncodedCommand "$encoded" >/dev/null 2>&1 &

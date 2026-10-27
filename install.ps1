@@ -6,11 +6,11 @@
 .DESCRIPTION
     Installs Zed, FiraCode Nerd Font, and zenhan when they are missing, then
     links the configuration files in this repository into %APPDATA%. When WSL
-    is available, the herdr configuration is also linked into the default
-    distribution.
+    is available, the herdr configuration and a notify-send shim that shows
+    Windows toasts are also linked into the default distribution.
 
 .PARAMETER SkipWsl
-    Do not link the herdr configuration into WSL.
+    Do not link anything into WSL.
 #>
 [CmdletBinding()]
 param(
@@ -186,39 +186,42 @@ function New-Link([string]$Path, [string]$Target) {
     Write-Host "    linked  $Path -> $Target"
 }
 
-# Each step runs through --exec so paths reach WSL without shell quoting.
-function New-WslLink([string]$Target) {
+function Get-WslHome {
     if ($SkipWsl) {
-        return
+        return $null
     }
     if (-not (Get-Command wsl.exe -ErrorAction SilentlyContinue)) {
         Write-Host '    skip    WSL is not installed'
-        return
+        return $null
     }
 
-    $wslTarget = wsl.exe --exec wslpath -a $Target
-    if ($LASTEXITCODE -ne 0 -or -not $wslTarget) {
+    $homeDir = wsl.exe --exec printenv HOME
+    if ($LASTEXITCODE -ne 0 -or -not $homeDir) {
         Write-Host '    skip    no WSL distribution is available'
-        return
+        return $null
     }
+    return $homeDir
+}
 
-    $wslHome = wsl.exe --exec printenv HOME
-    $path = "$wslHome/.config/herdr/config.toml"
-    wsl.exe --exec mkdir -p "$wslHome/.config/herdr"
+# Each step runs through --exec so paths reach WSL without shell quoting.
+function New-WslLink([string]$HomeDir, [string]$RelativePath, [string]$Target) {
+    $wslTarget = wsl.exe --exec wslpath -a $Target
+    $link = "$HomeDir/$RelativePath"
+    wsl.exe --exec mkdir -p ($link -replace '/[^/]*$', '')
 
-    wsl.exe --exec test -L $path
+    wsl.exe --exec test -L $link
     $isLink = $LASTEXITCODE -eq 0
-    wsl.exe --exec test -e $path
+    wsl.exe --exec test -e $link
     if (-not $isLink -and $LASTEXITCODE -eq 0) {
-        wsl.exe --exec mv $path "$path.backup-$Timestamp"
-        Write-Host "    backup  (WSL) $path.backup-$Timestamp"
+        wsl.exe --exec mv $link "$link.backup-$Timestamp"
+        Write-Host "    backup  (WSL) $link.backup-$Timestamp"
     }
 
-    wsl.exe --exec ln -sfn $wslTarget $path
+    wsl.exe --exec ln -sfn $wslTarget $link
     if ($LASTEXITCODE -ne 0) {
-        throw "Could not link $path in WSL."
+        throw "Could not link $link in WSL."
     }
-    Write-Host "    linked  (WSL) $path -> $wslTarget"
+    Write-Host "    linked  (WSL) $link -> $wslTarget"
 }
 
 Write-Step 'Checking symbolic link support'
@@ -240,6 +243,13 @@ New-Link (Join-Path $zedConfig 'tasks.json') (Join-Path $DotfilesDir 'windows\ze
 Write-Step 'Linking herdr configuration'
 $herdrSource = Join-Path $DotfilesDir 'herdr\.config\herdr\config.toml'
 New-Link (Join-Path $env:APPDATA 'herdr\config.toml') $herdrSource
-New-WslLink $herdrSource
+
+Write-Step 'Linking WSL configuration'
+$wslHome = Get-WslHome
+if ($wslHome) {
+    New-WslLink $wslHome '.config/herdr/config.toml' $herdrSource
+    # Lets herdr's ui.toast.delivery = "system" show Windows toasts.
+    New-WslLink $wslHome '.local/bin/notify-send' (Join-Path $DotfilesDir 'windows\wsl\notify-send')
+}
 
 Write-Host 'Dotfiles linked successfully. Restart Zed to load the settings.'
