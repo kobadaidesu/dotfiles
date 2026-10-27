@@ -56,7 +56,8 @@ stow --dir="$HOME/dotfiles" --target="$HOME" --delete zsh git ghostty starship
 
 ## Windows setup
 
-`install.ps1` links the Zed and herdr configurations with symbolic links. Turn
+`install.ps1` links the Zed, herdr, and WSL zsh configurations with symbolic
+links. Turn
 on Developer Mode (Settings > System > For developers) or run it from an
 elevated PowerShell.
 
@@ -74,6 +75,7 @@ The script installs Zed with winget, FiraCode Nerd Font, and
 | `windows/zed/tasks.json` | `%APPDATA%\Zed\tasks.json` |
 | `herdr/.config/herdr/config.toml` | `%APPDATA%\herdr\config.toml` and `~/.config/herdr/config.toml` in the default WSL distribution |
 | `windows/wsl/notify-send` | `~/.local/bin/notify-send` in the default WSL distribution |
+| `windows/wsl/.zshrc`, `.zshenv` | `~/.zshrc`, `~/.zshenv` in the default WSL distribution |
 
 `windows/zed/tasks.json` replaces the macOS task that switches to the ABC
 input source with macism: on Windows, zenhan turns the IME off when Vim mode
@@ -83,6 +85,11 @@ WSL has no notification daemon, so herdr's `ui.toast.delivery = "system"`
 would show nothing there. `windows/wsl/notify-send` takes the place of
 libnotify's command and shows the notification as a Windows toast through
 `powershell.exe`.
+
+The WSL zsh configuration uses Oh My Zsh with the agnoster theme, which must
+already be installed in WSL. It is tuned for start-up and prompt speed: on
+Windows drives (`/mnt/*`) the prompt shows only the Git branch instead of
+running agnoster's full status check, and nvm is loaded on first use.
 
 Existing files are renamed with a `.backup-<timestamp>` suffix before they are
 linked. Pass `-SkipWsl` to leave WSL untouched.
