@@ -1,0 +1,12 @@
+[
+  {
+    "label": "IME: ABC",
+    "command": "zenhan",
+    "args": ["0"],
+    "reveal": "never",
+    "hide": "never",
+    "show_summary": false,
+    "show_command": false,
+    "save": "none"
+  }
+]
