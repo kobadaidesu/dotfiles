@@ -250,6 +250,8 @@ if ($wslHome) {
     New-WslLink $wslHome '.config/herdr/config.toml' $herdrSource
     # Lets herdr's ui.toast.delivery = "system" show Windows toasts.
     New-WslLink $wslHome '.local/bin/notify-send' (Join-Path $DotfilesDir 'windows\wsl\notify-send')
+    New-WslLink $wslHome '.zshrc' (Join-Path $DotfilesDir 'windows\wsl\.zshrc')
+    New-WslLink $wslHome '.zshenv' (Join-Path $DotfilesDir 'windows\wsl\.zshenv')
 }
 
 Write-Host 'Dotfiles linked successfully. Restart Zed to load the settings.'
