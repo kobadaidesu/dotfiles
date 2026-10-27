@@ -5,7 +5,8 @@
 
 Personal macOS configuration managed with nix-darwin, Home Manager, and
 nix-homebrew. The previous [GNU Stow](https://www.gnu.org/software/stow/)
-workflow remains available while the migration is completed.
+workflow remains available while the migration is completed. The Zed and herdr
+configurations can also be set up on Windows; see [Windows setup](#windows-setup).
 
 ## Included configurations
 
@@ -52,6 +53,36 @@ To remove those links:
 ```sh
 stow --dir="$HOME/dotfiles" --target="$HOME" --delete zsh git ghostty starship
 ```
+
+## Windows setup
+
+`install.ps1` links the Zed and herdr configurations with symbolic links. Turn
+on Developer Mode (Settings > System > For developers) or run it from an
+elevated PowerShell.
+
+```powershell
+git clone https://github.com/kobadaidesu/dotfiles.git $HOME\dotfiles
+powershell -ExecutionPolicy Bypass -File $HOME\dotfiles\install.ps1
+```
+
+The script installs Zed with winget, FiraCode Nerd Font, and
+[zenhan](https://github.com/iuchim/zenhan) when they are missing, then links:
+
+| Repository | Windows |
+| --- | --- |
+| `zed/.config/zed/settings.json`, `keymap.json`, `themes/` | `%APPDATA%\Zed\` |
+| `windows/zed/tasks.json` | `%APPDATA%\Zed\tasks.json` |
+| `herdr/.config/herdr/config.toml` | `%APPDATA%\herdr\config.toml` and `~/.config/herdr/config.toml` in the default WSL distribution |
+
+`windows/zed/tasks.json` replaces the macOS task that switches to the ABC
+input source with macism: on Windows, zenhan turns the IME off when Vim mode
+enters insert mode.
+
+Existing files are renamed with a `.backup-<timestamp>` suffix before they are
+linked. Pass `-SkipWsl` to leave WSL untouched.
+
+herdr itself is not installed by the script. Install it inside WSL or on
+Windows by following the [herdr install guide](https://herdr.dev/docs/install/).
 
 ## Local-only data
 
